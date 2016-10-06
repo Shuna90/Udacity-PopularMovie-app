@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movie_information"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryLight"
+    android:paddingLeft="@dimen/keyline_1_difference"
+    android:paddingRight="@dimen/keyline_1_difference"
+    android:paddingTop="@dimen/keyline_1_difference"
+    android:paddingBottom="@dimen/keyline_1_difference"
+    app:columnCount="2">
+
+    <TextView
+        android:gravity="center_horizontal"
+        android:paddingBottom="@dimen/keyline_1_difference"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_columnSpan="2"
+        app:layout_columnWeight="1"
+        app:layout_gravity="left"
+        android:text="@string/information" />
+
+    <TextView
+        android:id="@+id/information_rated"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="@string/information_rated"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_columnSpan="1"
+        app:layout_rowWeight="1"
+        />
+
+    <TextView
+        android:id="@+id/information_movie_rated"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/keyline_1_difference"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/grey_700"
+        app:layout_columnSpan="1"
+        app:layout_rowWeight="1"
+        tools:text="False"
+        />
+
+    <TextView
+        android:id="@+id/information_in_theaters"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="@string/information_in_theaters"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_columnSpan="1"
+        app:layout_rowWeight="1"
+        />
+
+    <TextView
+        android:id="@+id/information_movie_in_theaters"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/keyline_1_difference"
+        app:layout_gravity="fill"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/grey_700"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        tools:text="Aug 26, 2016" />
+
+    <TextView
+        android:id="@+id/information_genre"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/information_genre"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_columnSpan="1"
+        app:layout_rowWeight="1"
+        />
+
+    <TextView
+        android:id="@+id/information_movie_genre"
+        android:gravity="center_vertical"
+        app:layout_gravity="fill"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/grey_700"
+        android:paddingLeft="@dimen/keyline_1_difference"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        tools:text="Thriller" />
+
+    <TextView
+        android:id="@+id/information_director"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/information_director"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_columnSpan="1"
+        app:layout_rowWeight="1"
+        />
+
+    <TextView
+        android:id="@+id/information_movie_director"
+        android:gravity="center_vertical"
+        app:layout_gravity="fill"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/grey_700"
+        android:paddingLeft="@dimen/keyline_1_difference"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        tools:text="Fede Alvarez" />
+
+    <TextView
+        android:id="@+id/information_cast"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/information_cast"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_columnSpan="1"
+        app:layout_rowWeight="1"
+        />
+
+    <TextView
+        android:id="@+id/information_movie_cast"
+        android:gravity="center_vertical"
+        app:layout_gravity="fill"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/grey_700"
+        android:paddingLeft="@dimen/keyline_1_difference"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        tools:text="movie cast" />
+
+    <TextView
+        android:id="@+id/information_run_time"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="@string/information_runtime"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_columnSpan="1"
+        app:layout_rowWeight="1"
+        />
+
+    <TextView
+        android:id="@+id/information_movie_run_time"
+        android:gravity="center_vertical"
+        app:layout_gravity="fill"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/grey_700"
+        android:paddingLeft="@dimen/keyline_1_difference"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="1"
+        tools:text="1h 28m" />
+
+
+</android.support.v7.widget.GridLayout>

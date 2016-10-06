@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_favorite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/keyline_1_difference">
+
+        <ImageView
+            android:id="@+id/movie_poster_image_view"
+            android:layout_width="@dimen/movie_details_poster_width"
+            android:layout_height="@dimen/movie_poster_detail_height"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/movie_details_poster_left_margin"
+            android:layout_marginTop="@dimen/movie_details_poster_top_margin"
+            android:layout_marginRight="@dimen/movie_details_poster_left_margin"/>
+
+        <TextView
+            android:id="@+id/movie_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/movie_poster_image_view"
+            android:layout_marginRight="@dimen/keyline_1_difference"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/colorPrimaryDark"
+            tools:text="Title" />
+
+        <TextView
+            android:id="@+id/movie_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/movie_title"
+            android:layout_toRightOf="@+id/movie_poster_image_view"
+            android:gravity="fill_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/colorPrimary"
+            tools:text="release date" />
+
+        <TextView
+            android:id="@+id/movie_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/movie_release_date"
+            android:layout_toRightOf="@+id/movie_poster_image_view"
+            android:gravity="fill_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/colorPrimary"
+            tools:text="100%" />
+
+        <ImageButton
+            android:id="@+id/movie_favorite_button"
+            style="@style/FavoriteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/movie_rating"
+            android:layout_toRightOf="@+id/movie_poster_image_view"
+            android:tint="@color/colorAccent" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/movie_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/keyline_1_difference"
+        android:layout_marginBottom="@dimen/keyline_1_difference"
+        android:layout_marginLeft="@dimen/keyline_1_difference"
+        android:layout_marginRight="@dimen/keyline_1_difference"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/grey_700"
+        tools:text="description" />
+</LinearLayout>
