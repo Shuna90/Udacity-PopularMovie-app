@@ -67,13 +67,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         if (findViewById(R.id.detail_container) != null) {
             mTwoPane = true;
             Utility.putTwoPan(this);
-        } else {
-            mTwoPane = false;
-        }
-
-        if (findViewById(R.id.detail_container) != null) {
-            mTwoPane = true;
-            Utility.putTwoPan(this);
             if (savedInstanceState != null){
                 mMovieFragment = (MainActivityFragment)getSupportFragmentManager()
                         .getFragment(savedInstanceState, MAINFRAGMENT_TAG);
@@ -114,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putString(EXTRA_SORT_BY, morder);
-
+        getSupportFragmentManager().putFragment(outState, MAINFRAGMENT_TAG, mMovieFragment);
         super.onSaveInstanceState(outState);
     }
 
