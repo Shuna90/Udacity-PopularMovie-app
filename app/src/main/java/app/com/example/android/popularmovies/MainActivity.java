@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     private View empty_movie;
     private View empty_favorite_movie;
     private boolean isConnection;
+    MainActivityFragment mMovieFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,28 +48,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             mTwoPane = false;
         }
 
-        if (savedInstanceState != null) {
-            morder = savedInstanceState.getString(EXTRA_SORT_BY);
-           // MainActivityFragment ff = (MainActivityFragment)getSupportFragmentManager().findFragmentByTag(MAINFRAGMENT_TAG);
-        }else{
-            morder = getResources().getString(R.string.sort_by_popular);
-            Utility.upDatePreferedOrder(this, morder);
-            if (mTwoPane){
-                /*
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new MainActivityFragment(), MAINFRAGMENT_TAG)
-                        .commit();
-                        */
-                /*
-                MainActivityFragment movieFragment = (MainActivityFragment)getSupportFragmentManager().findFragmentById(R.id.container);
-                if ( null != movieFragment) {
-                    movieFragment.updateMovieList(morder);
-                    Log.d(LOG_TAG, "TABLET START FRAGMENT");
-                }
-                */
-            }
-        }
-
         switch (morder){
             case MOST_POPULAR:
                 toolbar.setTitle(R.string.show_setting_sort_popular);
@@ -82,18 +61,23 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         }
 
         setSupportActionBar(toolbar);
-
         isFavorite = morder.equals(FAVORITES);
 
-        /*
-        MainActivityFragment ff = (MainActivityFragment)getSupportFragmentManager().findFragmentById(R.id.container);
-        ff.updateMovieList(morder);
-        */
-        /*
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.detail_container, ff)
-                .commit();
-                */
+        if (findViewById(R.id.detail_container) != null) {
+            mTwoPane = true;
+            Utility.putTwoPan(this);
+            if (savedInstanceState != null){
+                mMovieFragment = (MainActivityFragment)getSupportFragmentManager()
+                        .getFragment(savedInstanceState, MAINFRAGMENT_TAG);
+            }else{
+                mMovieFragment = new MainActivityFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, mMovieFragment, MAINFRAGMENT_TAG)
+                        .commit();
+            }
+        } else {
+            mTwoPane = false;
+        }
     }
 
     @Override

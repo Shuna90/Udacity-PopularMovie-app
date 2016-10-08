@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -92,10 +91,6 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        Display mDisplay = getActivity().getWindowManager().getDefaultDisplay();
-        final int width  = mDisplay.getWidth();
-        final int height = mDisplay.getHeight();
 
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -219,6 +214,8 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
             reviewList = new ArrayList<Review>();
             updateReviewList();
         }
+        reviewRecyclerView.setFocusable(false);
+        trailerRecyclerView.setFocusable(false);
 
         return rootView;
     }
@@ -268,7 +265,12 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
                         MovieContract.MovieEntry.COLUMN_MOVIE_ID + "=?",
                         new String[]{movie.getId()},
                         null);
-        return cs.moveToFirst();
+        boolean isFavorate = false;
+        if (cs.moveToFirst()){
+            isFavorate = true;
+        }
+        cs.close();
+        return isFavorate;
     }
 
     public void updateReviewList(){
