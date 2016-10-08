@@ -41,11 +41,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         empty_favorite_movie = findViewById(R.id.empty_favorite_state_container);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (findViewById(R.id.detail_container) != null) {
-            mTwoPane = true;
-            Utility.putTwoPan(this);
-        } else {
-            mTwoPane = false;
+
+        if (savedInstanceState != null) {
+            morder = savedInstanceState.getString(EXTRA_SORT_BY);
+        }else{
+            morder = getResources().getString(R.string.sort_by_popular);
+            Utility.upDatePreferedOrder(this, morder);
         }
 
         switch (morder){
@@ -62,6 +63,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
         setSupportActionBar(toolbar);
         isFavorite = morder.equals(FAVORITES);
+
+        if (findViewById(R.id.detail_container) != null) {
+            mTwoPane = true;
+            Utility.putTwoPan(this);
+        } else {
+            mTwoPane = false;
+        }
 
         if (findViewById(R.id.detail_container) != null) {
             mTwoPane = true;
