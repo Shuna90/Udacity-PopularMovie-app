@@ -18,9 +18,6 @@ import java.util.ArrayList;
 import app.com.example.android.popularmovies.data.MovieContract;
 import app.com.example.android.popularmovies.network.Movie;
 
-/**
- * Created by shuna on 8/19/16.
- */
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieAdapterViewHolder> {
     public static final String LOG_TAG = MovieListAdapter.class.getSimpleName();
     private ArrayList<Movie> movieArrayList;
@@ -61,7 +58,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         }
     }
 
-    public static interface MovieAdapterOnClickHandler {
+    public interface MovieAdapterOnClickHandler {
         void onClick(int adapterPosition);
 
     }
@@ -130,8 +127,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                     .load(post_path)
                     .config(Bitmap.Config.RGB_565)
                     .into(holder.image_poster);
+            Log.d(LOG_TAG, "LOAD PICTURE" + post_path);
         }
-        Log.d(LOG_TAG, "LOAD PICTURE");
     }
 
     @Override

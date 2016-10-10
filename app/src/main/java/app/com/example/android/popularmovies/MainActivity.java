@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             Utility.upDatePreferedOrder(this, morder);
         }
 
+        assert morder != null;
         switch (morder){
             case MOST_POPULAR:
                 toolbar.setTitle(R.string.show_setting_sort_popular);
@@ -70,12 +71,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             if (savedInstanceState != null){
                 mMovieFragment = (MainActivityFragment)getSupportFragmentManager()
                         .getFragment(savedInstanceState, MAINFRAGMENT_TAG);
+                Log.d(LOG_TAG, "GET MOVIEFRAGMENT FROM SAVEDINSTANCESTATE");
             }else{
                 mMovieFragment = new MainActivityFragment();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, mMovieFragment, MAINFRAGMENT_TAG)
-                        .commit();
             }
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, mMovieFragment, MAINFRAGMENT_TAG)
+                    .commit();
+            Log.d(LOG_TAG, "REPLACE MOVIEFRAGMENT");
         } else {
             mTwoPane = false;
         }

@@ -29,10 +29,11 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         android:divider="?android:attr/dividerHorizontal"
+        android:baselineAligned="false"
         android:orientation="horizontal">
 
 
-        <fragment
+        <FrameLayout
             android:id="@+id/container"
             android:name="app.com.example.android.popularmovies.MainActivityFragment"
             android:layout_width="0dp"

@@ -55,9 +55,10 @@ public class MainActivityFragment extends Fragment implements FetchMovieTask.OnT
         // && savedInstanceState.containsKey(SAVED_MOVIE_LIST)
         if(savedInstanceState != null) {
             MovieArrayList = savedInstanceState.getParcelableArrayList(SAVED_MOVIE_LIST);
-            Log.d(LOG_TAG, "savedInstanceState oncreate finish ");
+            Log.d(LOG_TAG, "MOVIE ARRAYLIST GET FROM SAVEDINSTANCE");
+            Log.d(LOG_TAG, MovieArrayList.size() + " , MOVIEARRAYLIST SIZE");
         }else{
-            MovieArrayList = new ArrayList<Movie>();
+            MovieArrayList = new ArrayList<>();
             updateMovieList(getString(R.string.sort_by_popular));
             Log.d(LOG_TAG, "START NEW FRAGMENT POPULAR");
         }
@@ -112,7 +113,7 @@ public class MainActivityFragment extends Fragment implements FetchMovieTask.OnT
         /**
          * DetailFragmentCallback for when an item has been selected.
          */
-        public void onItemSelected(Movie movie);
+        void onItemSelected(Movie movie);
     }
 
     @Override
@@ -163,6 +164,7 @@ public class MainActivityFragment extends Fragment implements FetchMovieTask.OnT
 
         if (!isFavorite){
             mRecyclerView.setAdapter(mMovieListAdapter);
+            Log.d(LOG_TAG, MovieArrayList.size() + " , MOVIEARRAYLIST SIZE");
             Log.d(LOG_TAG, "ONCREATEVIEW SET LIST ADAPTER");
             updateEmpty();
         }else{
