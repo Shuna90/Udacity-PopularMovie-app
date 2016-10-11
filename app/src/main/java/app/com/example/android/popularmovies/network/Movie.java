@@ -8,14 +8,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
-import app.com.example.android.popularmovies.Genre;
-
-/**
- * Created by shuna on 8/19/16.
- */
 public class Movie implements Parcelable {
 
     public static final String LOG_TAG = Movie.class.getSimpleName();
@@ -28,16 +22,13 @@ public class Movie implements Parcelable {
     private String rating;
     private String releaseDate;
     private String backdrop;
-    private List<Integer> genreIds;
     private boolean favored;
-    private List<Genre> genres;
 
     public static final float POSTER_ASPECT_RATIO = 1.5f;
 
     public Movie(){
 
     }
-
 
     public Movie(String id, String title, String overview, String rating,
                  String releaseDate, String poster_path, String backdrop_path) {
@@ -114,9 +105,6 @@ public class Movie implements Parcelable {
     public void setBackdrop(String backdrop){
         this.backdrop = backdrop;
     }
-    public List<Integer> getGenreIds() {
-        return genreIds;
-    }
 
     public boolean isFavored() {
         return favored;
@@ -124,21 +112,6 @@ public class Movie implements Parcelable {
 
     public void setFavored(boolean favored) {
         this.favored = favored;
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
-    }
-
-    public String makeGenreIdsList() {
-        if (genreIds.isEmpty()) return "";
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(genreIds.get(0));
-        for (int i = 1; i < genreIds.size(); i++) {
-            sb.append(",").append(genreIds.get(i));
-        }
-        return sb.toString();
     }
 
     public String getMovieString(){

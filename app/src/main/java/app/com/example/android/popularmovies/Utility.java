@@ -7,9 +7,6 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-/**
- * Created by shuna on 8/21/16.
- */
 public class Utility {
     public static final String LOG_TAG = Utility.class.getSimpleName();
     public static final String TWO_PANE = "TWO_PANE";
@@ -43,6 +40,16 @@ public class Utility {
     public static void putTwoPan(Context context){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs.edit().putBoolean(TWO_PANE, true).commit();
+    }
+
+    public static String getRumTime(String runTime){
+        int time = Integer.parseInt(runTime);
+        int timeInHour = time / 60;
+        int timeLeftMin = time % 60;
+        if (timeLeftMin != 0){
+            return timeInHour + "h " + timeLeftMin + " min";
+        }
+        return timeInHour + "h";
     }
 
 }

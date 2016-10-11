@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,17 +108,17 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         }
 
         if (!Utility.isNetworkAvailable(context)){
-            Log.d(LOG_TAG, "onBindViewHolder");
+            //Log.d(LOG_TAG, "onBindViewHolder");
             //holder.cleanUp();
             if (!isFavorite){
                 empty_text.setText(context.getString( R.string.text_check_internet));
-                Log.d(LOG_TAG, "NOT FAVORITE set empty text");
+                //Log.d(LOG_TAG, "NOT FAVORITE set empty text");
             }else{
                 holder.image_poster.setVisibility(View.GONE);
                 empty_text.setText(context.getString( R.string.text_add_more_favorite));
                 holder.text_title.setVisibility(View.VISIBLE);
                 holder.text_title.setText(title);
-                Log.d(LOG_TAG, "IS FAVORITE set empty text");
+                //Log.d(LOG_TAG, "IS FAVORITE set empty text");
             }
         }else {
 
@@ -127,7 +126,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                     .load(post_path)
                     .config(Bitmap.Config.RGB_565)
                     .into(holder.image_poster);
-            Log.d(LOG_TAG, "LOAD PICTURE" + post_path);
+            //Log.d(LOG_TAG, "LOAD PICTURE" + post_path);
         }
     }
 
@@ -155,7 +154,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         empty_text.setVisibility(getItemCount() == 0 ? View.VISIBLE : View.GONE);
         mRV.setVisibility(getItemCount() == 0 ? View.GONE : View.VISIBLE);
         empty_text.setText(context.getString( R.string.text_check_internet));
-        Log.d(LOG_TAG, "SWAP LIST COUNT = " + getItemCount());
+        //Log.d(LOG_TAG, "SWAP LIST COUNT = " + getItemCount());
     }
 
     public void swapCursor(Cursor newCursor) {
@@ -165,7 +164,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         empty_text.setVisibility(getItemCount() == 0 ? View.VISIBLE : View.GONE);
         mRV.setVisibility(getItemCount() == 0 ? View.GONE : View.VISIBLE);
         empty_text.setText(context.getString( R.string.text_check_internet));
-        Log.d(LOG_TAG, "SWAP CURSOR COUNT = "+ getItemCount());
+        //Log.d(LOG_TAG, "SWAP CURSOR COUNT = "+ getItemCount());
     }
 
 }

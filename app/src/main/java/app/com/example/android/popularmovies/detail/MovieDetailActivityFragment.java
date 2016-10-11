@@ -29,8 +29,12 @@ import java.util.ArrayList;
 import app.com.example.android.popularmovies.R;
 import app.com.example.android.popularmovies.Utility;
 import app.com.example.android.popularmovies.data.MovieContract;
+import app.com.example.android.popularmovies.network.Cast;
+import app.com.example.android.popularmovies.network.FetchCastTask;
+import app.com.example.android.popularmovies.network.FetchInfoTask;
 import app.com.example.android.popularmovies.network.FetchReviewTask;
 import app.com.example.android.popularmovies.network.FetchTrailerTask;
+import app.com.example.android.popularmovies.network.Information;
 import app.com.example.android.popularmovies.network.Movie;
 import app.com.example.android.popularmovies.network.Review;
 import app.com.example.android.popularmovies.network.Trailer;
@@ -40,12 +44,16 @@ import butterknife.ButterKnife;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MovieDetailActivityFragment extends Fragment implements FetchTrailerTask.OnTrailerTaskCompleted, FetchReviewTask.OnReviewTaskCompleted{
+public class MovieDetailActivityFragment extends Fragment implements FetchTrailerTask.OnTrailerTaskCompleted,
+        FetchReviewTask.OnReviewTaskCompleted, FetchCastTask.OnFetchCastTaskCompleted, FetchInfoTask.OnFetchInfoTaskCompleted
+{
 
     private final String LOG_TAG = MovieDetailActivityFragment.class.getSimpleName();
     public static final String MOVIE_Detail = "MOVIE_Detail";
     public static final String MOVIE_TRAILERS = "MOVIE_TRAILERS";
     public static final String MOVIE_REVIEWS = "MOVIE_REVIEWS";
+    public static final String MOVIE_CAST = "MOVIE_CAST";
+    public static final String MOVIE_INFO = "MOVIE_INFO";
 
     @BindView(R.id.movie_title)
     private TextView movie_title;
@@ -73,13 +81,31 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
     @BindView(R.id.toolbar_layout)
     private CollapsingToolbarLayout collapsingToolbarLayout;
 
+    @BindView(R.id.information_movie_rated)
+    private TextView movie_adult;
+    @BindView(R.id.information_movie_in_theaters)
+    private TextView movie_in_theater;
+    @BindView(R.id.information_movie_genre)
+    private TextView movie_genre;
+    @BindView(R.id.information_movie_director)
+    private TextView movie_director;
+    @BindView(R.id.information_movie_cast)
+    private TextView movie_cast;
+    @BindView(R.id.information_movie_run_time)
+    private TextView movie_runtime;
+
     private Movie movie;
     private boolean isFavorite;
 
     FetchReviewTask reviewTask;
     FetchTrailerTask trailerTask;
+    FetchCastTask castTask;
+    FetchInfoTask infoTask;
+
     private ArrayList<Review> reviewList;
     private ArrayList<Trailer> trailerList;
+    private Cast cast;
+    private Information info;
 
     private ReviewAdapter reviewAdapter;
     private TrailerAdapter trailerAdapter;
@@ -98,8 +124,8 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
             Log.d(LOG_TAG, movie.getTitle());
         }
 
-        trailerList = new ArrayList<Trailer>();
-        reviewList = new ArrayList<Review>();
+        trailerList = new ArrayList<>();
+        reviewList = new ArrayList<>();
 
     }
     @Override
@@ -118,6 +144,13 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
         trailerRecyclerView = (RecyclerView)rootView.findViewById(R.id.trailer_list);
         review_text = (TextView) rootView.findViewById(R.id.review_text);
         trailer_text = (TextView) rootView.findViewById(R.id.trailer_text);
+
+        movie_adult = (TextView)rootView.findViewById(R.id.information_movie_rated);
+        movie_in_theater = (TextView)rootView.findViewById(R.id.information_movie_in_theaters);
+        movie_genre = (TextView)rootView.findViewById(R.id.information_movie_genre);
+        movie_director = (TextView)rootView.findViewById(R.id.information_movie_director);
+        movie_cast = (TextView)rootView.findViewById(R.id.information_movie_cast);
+        movie_runtime = (TextView)rootView.findViewById(R.id.information_movie_run_time);
 
         if (!Utility.isTwoPane(getContext())){
             View parent = getActivity().findViewById(R.id.toolbar_layout);
@@ -202,7 +235,7 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
             trailer_text.setText(getString(R.string.trailer_text));
 
         } else {
-            trailerList = new ArrayList<Trailer>();
+            trailerList = new ArrayList<>();
             updateTrailerList();
         }
 
@@ -211,8 +244,22 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
             reviewAdapter.updateReview(reviewList);
             review_text.setText(getString(R.string.review_text));
         } else {
-            reviewList = new ArrayList<Review>();
+            reviewList = new ArrayList<>();
             updateReviewList();
+        }
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(MOVIE_CAST)){
+            cast = savedInstanceState.getParcelable(MOVIE_CAST);
+            castTaskCompleted(cast);
+        }else{
+            updateCast();
+        }
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(MOVIE_INFO)){
+            info = savedInstanceState.getParcelable(MOVIE_INFO);
+            infoTaskCompleted(info);
+        }else{
+            updateInfo();
         }
         reviewRecyclerView.setFocusable(false);
         trailerRecyclerView.setFocusable(false);
@@ -233,6 +280,8 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
 
         outState.putParcelableArrayList(MOVIE_TRAILERS, trailerList);
         outState.putParcelableArrayList(MOVIE_REVIEWS, reviewList);
+        outState.putParcelable(MOVIE_CAST, cast);
+        outState.putParcelable(MOVIE_INFO, info);
     }
 
     private void finishCreatingMenu(Menu menu) {
@@ -284,6 +333,39 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
         trailerTask.execute(movie.getId());
         Log.d(LOG_TAG, "review Task completed");
     }
+
+    public void updateCast(){
+        castTask = new FetchCastTask(this);
+        castTask.execute(movie.getId());
+        Log.d(LOG_TAG, "cast Task completed");
+    }
+
+    public void updateInfo(){
+        infoTask = new FetchInfoTask(this);
+        infoTask.execute(movie.getId());
+        Log.d(LOG_TAG, "info Task completed");
+    }
+
+    @Override
+    public void castTaskCompleted(Cast cast){
+        if (cast != null){
+            this.cast = cast;
+            movie_cast.setText(cast.getCredit());
+            movie_director.setText(cast.getDirector());
+        }
+    }
+
+    @Override
+    public void infoTaskCompleted(Information info) {
+        if (info != null){
+            this.info = info;
+            movie_in_theater.setText(movie.getReleaseDate());
+            movie_adult.setText(info.getAdult());
+            movie_genre.setText(info.getGenres());
+            movie_runtime.setText(info.getRuntime());
+        }
+    }
+
     @Override
     public void reviewTaskCompleted(ArrayList<Review> reviews) {
         if (reviews != null && reviews.size() > 0){
@@ -303,4 +385,5 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
             trailerAdapter.updateTrailer(trailerList);
         }
     }
+
 }

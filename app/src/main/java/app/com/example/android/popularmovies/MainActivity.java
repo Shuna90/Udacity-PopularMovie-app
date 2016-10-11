@@ -42,12 +42,27 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        if (findViewById(R.id.detail_container) != null) {
+            mTwoPane = true;
+            Utility.putTwoPan(this);
+        } else {
+            mTwoPane = false;
+        }
+
         if (savedInstanceState != null) {
             morder = savedInstanceState.getString(EXTRA_SORT_BY);
+            mMovieFragment = (MainActivityFragment)getSupportFragmentManager()
+                    .getFragment(savedInstanceState, MAINFRAGMENT_TAG);
+            Log.d(LOG_TAG, "GET MOVIEFRAGMENT FROM SAVEDINSTANCESTATE");
         }else{
             morder = getResources().getString(R.string.sort_by_popular);
             Utility.upDatePreferedOrder(this, morder);
+            mMovieFragment = new MainActivityFragment();
         }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, mMovieFragment, MAINFRAGMENT_TAG)
+                .commit();
+        Log.d(LOG_TAG, "REPLACE MOVIEFRAGMENT");
 
         assert morder != null;
         switch (morder){
@@ -64,24 +79,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
         setSupportActionBar(toolbar);
         isFavorite = morder.equals(FAVORITES);
-
-        if (findViewById(R.id.detail_container) != null) {
-            mTwoPane = true;
-            Utility.putTwoPan(this);
-            if (savedInstanceState != null){
-                mMovieFragment = (MainActivityFragment)getSupportFragmentManager()
-                        .getFragment(savedInstanceState, MAINFRAGMENT_TAG);
-                Log.d(LOG_TAG, "GET MOVIEFRAGMENT FROM SAVEDINSTANCESTATE");
-            }else{
-                mMovieFragment = new MainActivityFragment();
-            }
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, mMovieFragment, MAINFRAGMENT_TAG)
-                    .commit();
-            Log.d(LOG_TAG, "REPLACE MOVIEFRAGMENT");
-        } else {
-            mTwoPane = false;
-        }
     }
 
     @Override

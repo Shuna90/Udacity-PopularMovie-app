@@ -24,7 +24,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <fragment
+    <FrameLayout
         android:id="@+id/container"
         android:name="app.com.example.android.popularmovies.MainActivityFragment"
         android:layout_width="match_parent"
