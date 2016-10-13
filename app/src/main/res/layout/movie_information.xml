@@ -86,9 +86,8 @@
         android:id="@+id/information_movie_cast"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/grey_700"
-        android:layout_marginRight="@dimen/keyline_1_difference"
-        android:paddingRight="@dimen/keyline_1_difference"
-        android:paddingEnd="@dimen/keyline_1_difference"
+        android:layout_width="0dp"
+        app:layout_gravity="fill_horizontal"
         tools:text="movie cast 1234567890 1234567890 1234567890" />
 
     <TextView
