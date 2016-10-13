@@ -18,9 +18,6 @@ import java.util.ArrayList;
 
 import app.com.example.android.popularmovies.BuildConfig;
 
-/**
- * Created by shuna on 9/28/16.
- */
 public class FetchReviewTask extends AsyncTask<String, Void, ArrayList<Review> > {
 
     private final String LOG_TAG = FetchTrailerTask.class.getSimpleName();
@@ -42,7 +39,7 @@ public class FetchReviewTask extends AsyncTask<String, Void, ArrayList<Review> >
         String movieId = params[0];
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
-        String forecastJsonStr = null;
+        String forecastJsonStr;
 
         try {
             final String BASE_URL = "http://api.themoviedb.org/3/movie/";
@@ -56,7 +53,7 @@ public class FetchReviewTask extends AsyncTask<String, Void, ArrayList<Review> >
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
             InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             if (inputStream == null) {
                 // Nothing to do.
                 return null;
@@ -68,7 +65,7 @@ public class FetchReviewTask extends AsyncTask<String, Void, ArrayList<Review> >
                 // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
                 // But it does make debugging a *lot* easier if you print out the completed
                 // buffer for debugging.
-                buffer.append(line + "\n");
+                buffer.append(line).append("\n");
             }
 
             if (buffer.length() == 0) {
@@ -111,7 +108,7 @@ public class FetchReviewTask extends AsyncTask<String, Void, ArrayList<Review> >
         try{
             JSONObject forecastJson = new JSONObject(forecastJsonStr);
             JSONArray movieArray = forecastJson.getJSONArray("results");
-            ArrayList<Review> list = new ArrayList<Review>();
+            ArrayList<Review> list = new ArrayList<>();
 
             for (int i = 0; i < movieArray.length(); i++){
                 String id;

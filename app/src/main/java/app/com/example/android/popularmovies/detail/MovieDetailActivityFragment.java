@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -107,8 +108,8 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
     private Cast cast;
     private Information info;
 
-    private ReviewAdapter reviewAdapter;
-    private TrailerAdapter trailerAdapter;
+    private ComplexAdapter reviewAdapter;
+    private ComplexAdapter trailerAdapter;
 
     public MovieDetailActivityFragment() {
     }
@@ -121,12 +122,11 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
         Bundle arguments = getArguments();
         if (arguments != null) {
             movie = arguments.getParcelable(MovieDetailActivityFragment.MOVIE_Detail);
-            Log.d(LOG_TAG, movie.getTitle());
+            //Log.d(LOG_TAG, movie.getTitle());
         }
 
         trailerList = new ArrayList<>();
         reviewList = new ArrayList<>();
-
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,35 +140,33 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
         movie_description = (TextView) rootView.findViewById(R.id.movie_description);
         movie_poster = (ImageView) rootView.findViewById(R.id.movie_poster_image_view);
         movie_date = (TextView) rootView.findViewById(R.id.movie_release_date);
-        reviewRecyclerView = (RecyclerView)rootView.findViewById(R.id.review_list);
-        trailerRecyclerView = (RecyclerView)rootView.findViewById(R.id.trailer_list);
+        reviewRecyclerView = (RecyclerView) rootView.findViewById(R.id.review_list);
+        trailerRecyclerView = (RecyclerView) rootView.findViewById(R.id.trailer_list);
         review_text = (TextView) rootView.findViewById(R.id.review_text);
         trailer_text = (TextView) rootView.findViewById(R.id.trailer_text);
 
-        movie_adult = (TextView)rootView.findViewById(R.id.information_movie_rated);
-        movie_in_theater = (TextView)rootView.findViewById(R.id.information_movie_in_theaters);
-        movie_genre = (TextView)rootView.findViewById(R.id.information_movie_genre);
-        movie_director = (TextView)rootView.findViewById(R.id.information_movie_director);
-        movie_cast = (TextView)rootView.findViewById(R.id.information_movie_cast);
-        movie_runtime = (TextView)rootView.findViewById(R.id.information_movie_run_time);
+        movie_adult = (TextView) rootView.findViewById(R.id.information_movie_rated);
+        movie_in_theater = (TextView) rootView.findViewById(R.id.information_movie_in_theaters);
+        movie_genre = (TextView) rootView.findViewById(R.id.information_movie_genre);
+        movie_director = (TextView) rootView.findViewById(R.id.information_movie_director);
+        movie_cast = (TextView) rootView.findViewById(R.id.information_movie_cast);
+        movie_runtime = (TextView) rootView.findViewById(R.id.information_movie_run_time);
 
-        if (!Utility.isTwoPane(getContext())){
+        if (!Utility.isTwoPane(getContext())) {
             View parent = getActivity().findViewById(R.id.toolbar_layout);
             imageView = (ImageView) parent.findViewById(R.id.movie_detail_poster);
-            imageView.setOnClickListener(new View.OnClickListener(){
+            imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (trailerList != null && trailerList.size() > 0){
+                    if (trailerList != null && trailerList.size() > 0) {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailerList.get(0).getUrl())));
                         Log.d(LOG_TAG, " click");
                     }
                 }
             });
-            //review_text.setGravity(Gravity.CENTER_HORIZONTAL);
-            //trailer_text.setGravity(Gravity.CENTER_HORIZONTAL);
         }
 
-        if (movie != null){
+        if (movie != null) {
             Picasso.with(getContext())
                     .load(movie.getPoster_path())
                     .config(Bitmap.Config.RGB_565)
@@ -178,7 +176,7 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
         movie_favorite = (ImageButton) rootView.findViewById(R.id.movie_favorite_button);
         isFavorite = checkFavorite();
         movie_favorite.setSelected(isFavorite);
-        movie_favorite.setOnClickListener(new View.OnClickListener(){
+        movie_favorite.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -186,18 +184,18 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
                 contentMovie.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, movie.getId());
                 contentMovie.put(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE, movie.getTitle());
                 contentMovie.put(MovieContract.MovieEntry.COLUMN_MOVIE_OVERVIEW, movie.getOverview());
-                contentMovie.put(MovieContract.MovieEntry.COLUMN_MOVIE_VOTE_AVERAGE, movie.getRating() );
+                contentMovie.put(MovieContract.MovieEntry.COLUMN_MOVIE_VOTE_AVERAGE, movie.getRating());
                 contentMovie.put(MovieContract.MovieEntry.COLUMN_MOVIE_RELEASE_DATE, movie.getReleaseDate());
                 contentMovie.put(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER_PATH, movie.getPoster_path());
                 contentMovie.put(MovieContract.MovieEntry.COLUMN_MOVIE_BACKDROP_PATH, movie.getBackdropUrl());
 
                 isFavorite = checkFavorite();
-                if (!isFavorite){
+                if (!isFavorite) {
                     getContext().getContentResolver()
-                            .insert(MovieContract.MovieEntry.CONTENT_URI,contentMovie);
+                            .insert(MovieContract.MovieEntry.CONTENT_URI, contentMovie);
                     movie_favorite.setSelected(true);
                     Toast.makeText(getContext(), "Make " + movie.getTitle() + " Favorite.", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     getContext().getContentResolver()
                             .delete(MovieContract.MovieEntry.buildMovieUriId(movie.getId()),
                                     null,
@@ -212,59 +210,65 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
         LinearLayoutManager layoutManagerTrailer
                 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         trailerRecyclerView.setLayoutManager(layoutManagerTrailer);
-        trailerAdapter = new TrailerAdapter(getContext(), new TrailerAdapter.TrailerAdapterOnClickHandler() {
-
-            @Override
-            public void onClick(Trailer trailer, int adapterPosition) {
-                if (trailerAdapter.getItemCount() > 0){
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailer.getUrl())));
-                }
-            }
-        }, trailerList);
-        trailerRecyclerView.setAdapter(trailerAdapter);
 
         LinearLayoutManager layoutManagerReview
                 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         reviewRecyclerView.setLayoutManager(layoutManagerReview);
-        reviewAdapter = new ReviewAdapter(reviewList);
+
+        trailerAdapter = new ComplexAdapter(getContext(), new ComplexAdapter.ComplexAdapterOnClickHandler() {
+            @Override
+            public void onClick(Object o, int adapterPosition) {
+                if (trailerAdapter.getObject((adapterPosition)) instanceof Trailer
+                        && trailerAdapter.getItemCount() > 0) {
+                    Trailer trailer = (Trailer) trailerAdapter.getObject(adapterPosition);
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailer.getUrl())));
+                }
+            }
+        }, trailerList, null);
+
+        reviewAdapter = new ComplexAdapter(getContext(), new ComplexAdapter.ComplexAdapterOnClickHandler() {
+            @Override
+            public void onClick(Object o, int adapterPosition) {
+                if (reviewAdapter.getObject((adapterPosition)) instanceof Review
+                        && reviewAdapter.getItemCount() > 0) {
+                    Review review = (Review) reviewAdapter.getObject(adapterPosition);
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(review.getUrl())));
+                }
+            }
+        }, null, reviewList);
+
         reviewRecyclerView.setAdapter(reviewAdapter);
+        trailerRecyclerView.setAdapter(trailerAdapter);
 
-        if (savedInstanceState != null && savedInstanceState.containsKey(MOVIE_TRAILERS)) {
-            trailerList = savedInstanceState.getParcelableArrayList(MOVIE_TRAILERS);
-            trailerAdapter.updateTrailer(trailerList);
-            trailer_text.setText(getString(R.string.trailer_text));
-
-        } else {
-            trailerList = new ArrayList<>();
-            updateTrailerList();
-        }
-
-        if (savedInstanceState != null && savedInstanceState.containsKey(MOVIE_REVIEWS)) {
-            reviewList = savedInstanceState.getParcelableArrayList(MOVIE_REVIEWS);
-            reviewAdapter.updateReview(reviewList);
-            review_text.setText(getString(R.string.review_text));
-        } else {
-            reviewList = new ArrayList<>();
-            updateReviewList();
-        }
-
-        if (savedInstanceState != null && savedInstanceState.containsKey(MOVIE_CAST)){
-            cast = savedInstanceState.getParcelable(MOVIE_CAST);
-            castTaskCompleted(cast);
-        }else{
-            updateCast();
-        }
-
-        if (savedInstanceState != null && savedInstanceState.containsKey(MOVIE_INFO)){
-            info = savedInstanceState.getParcelable(MOVIE_INFO);
-            infoTaskCompleted(info);
-        }else{
-            updateInfo();
-        }
         reviewRecyclerView.setFocusable(false);
         trailerRecyclerView.setFocusable(false);
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null){
+            trailerList = savedInstanceState.getParcelableArrayList(MOVIE_TRAILERS);
+            trailer_text.setText(getString(R.string.trailer_text));
+            trailerAdapter.updateTrailer(trailerList);
+
+            reviewList = savedInstanceState.getParcelableArrayList(MOVIE_REVIEWS);
+            review_text.setText(getString(R.string.review_text));
+            reviewAdapter.updateReview(reviewList);
+
+            cast = savedInstanceState.getParcelable(MOVIE_CAST);
+            castTaskCompleted(cast);
+
+            info = savedInstanceState.getParcelable(MOVIE_INFO);
+            infoTaskCompleted(info);
+        }else{
+            updateTrailerList();
+            updateReviewList();
+            updateCast();
+            updateInfo();
+        }
     }
 
     private void post(){
@@ -315,6 +319,7 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
                         new String[]{movie.getId()},
                         null);
         boolean isFavorate = false;
+        assert cs != null;
         if (cs.moveToFirst()){
             isFavorate = true;
         }

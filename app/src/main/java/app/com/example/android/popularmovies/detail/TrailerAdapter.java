@@ -18,9 +18,6 @@ import app.com.example.android.popularmovies.network.Trailer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by shuna on 9/28/16.
- */
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerAdapterViewHolder>  {
     public static final String LOG_TAG = TrailerAdapter.class.getSimpleName();
     private ArrayList<Trailer> trailerArrayList;
@@ -33,7 +30,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerA
         mClickHandler = handler;
     }
 
-    public static interface TrailerAdapterOnClickHandler {
+    public interface TrailerAdapterOnClickHandler {
         void onClick(Trailer trailer, int adapterPosition);
 
     }

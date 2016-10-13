@@ -17,9 +17,6 @@ import java.net.URL;
 
 import app.com.example.android.popularmovies.BuildConfig;
 
-/**
- * Created by shuna on 10/10/16.
- */
 public class FetchInfoTask extends AsyncTask<String, Void, Information> {
 
     private final String LOG_TAG = FetchCastTask.class.getSimpleName();
@@ -56,7 +53,7 @@ public class FetchInfoTask extends AsyncTask<String, Void, Information> {
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
             InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             if (inputStream == null) {
                 // Nothing to do.
                 return null;
@@ -68,7 +65,7 @@ public class FetchInfoTask extends AsyncTask<String, Void, Information> {
                 // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
                 // But it does make debugging a *lot* easier if you print out the completed
                 // buffer for debugging.
-                buffer.append(line + "\n");
+                buffer.append(line).append("\n");
             }
 
             if (buffer.length() == 0) {
@@ -107,7 +104,7 @@ public class FetchInfoTask extends AsyncTask<String, Void, Information> {
         try{
             JSONObject forecastJson = new JSONObject(forecastJsonStr);
             boolean ad = forecastJson.getBoolean(Information.ADULT);
-            String adult = ad ? "true" : "false";
+            String adult = ad ? "True" : "False";
 
             JSONArray genreArray = forecastJson.getJSONArray(Information.GENRES);
             StringBuilder genreBuilder = new StringBuilder();

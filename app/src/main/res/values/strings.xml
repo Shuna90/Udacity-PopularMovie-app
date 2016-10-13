@@ -34,4 +34,6 @@
     <string name="trailer_text">Trailers</string>
     <string name="review_text">Reviews</string>
     <string name="is_two_pane">isTwoPane</string>
+    <string name="toast_trailer_failed">Trailer Fetch Failed</string>
+    <string name="toast_review_failed">Review Fetch Failed</string>
 </resources>

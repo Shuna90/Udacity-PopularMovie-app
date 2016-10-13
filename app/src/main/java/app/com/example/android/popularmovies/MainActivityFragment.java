@@ -48,19 +48,35 @@ public class MainActivityFragment extends Fragment implements FetchMovieTask.OnT
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        //setHasOptionsMenu(true);
         morder = Utility.getPreferredOrder(getContext());
         isFavorite = morder.equals(MainActivity.FAVORITES);
+        MovieArrayList = new ArrayList<>();
 
-        // && savedInstanceState.containsKey(SAVED_MOVIE_LIST)
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         if(savedInstanceState != null) {
             MovieArrayList = savedInstanceState.getParcelableArrayList(SAVED_MOVIE_LIST);
+            mPosition = savedInstanceState.getInt(SELECTED_KEY);
             Log.d(LOG_TAG, "MOVIE ARRAYLIST GET FROM SAVEDINSTANCE");
             Log.d(LOG_TAG, MovieArrayList.size() + " , MOVIEARRAYLIST SIZE");
         }else{
             MovieArrayList = new ArrayList<>();
             updateMovieList(getString(R.string.sort_by_popular));
             Log.d(LOG_TAG, "START NEW FRAGMENT POPULAR");
+        }
+
+        if (!isFavorite){
+            mMovieListAdapter.updateArrayList(MovieArrayList);
+            mRecyclerView.setAdapter(mMovieListAdapter);
+            Log.d(LOG_TAG, MovieArrayList.size() + " , MOVIEARRAYLIST SIZE");
+            Log.d(LOG_TAG, "ONCREATEVIEW SET LIST ADAPTER");
+            updateEmpty();
+        }else{
+            updateMovieCursor();
         }
     }
 
@@ -138,11 +154,6 @@ public class MainActivityFragment extends Fragment implements FetchMovieTask.OnT
             }
         }, MovieArrayList);
 
-        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
-            mPosition = savedInstanceState.getInt(SELECTED_KEY);
-
-        }
-
         mMovieCursorAdapter = new MovieListAdapter(getActivity(),rootView,new MovieListAdapter.MovieAdapterOnClickHandler() {
 
             @Override
@@ -160,16 +171,6 @@ public class MainActivityFragment extends Fragment implements FetchMovieTask.OnT
                 ((Callback) getActivity()).onItemSelected(mMovie);
             }
         }, MovieArrayList);
-
-
-        if (!isFavorite){
-            mRecyclerView.setAdapter(mMovieListAdapter);
-            Log.d(LOG_TAG, MovieArrayList.size() + " , MOVIEARRAYLIST SIZE");
-            Log.d(LOG_TAG, "ONCREATEVIEW SET LIST ADAPTER");
-            updateEmpty();
-        }else{
-            updateMovieCursor();
-        }
 
         return rootView;
     }
