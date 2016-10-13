@@ -22,7 +22,7 @@ android {
         }
     }
     buildTypes.each {
-        it.buildConfigField 'String', 'THE_MOVIE_DATABASE_API_KEY',"\"4cdf3d6a44f1b31cf1b0a47d56bb7b53\""
+        it.buildConfigField 'String', 'THE_MOVIE_DATABASE_API_KEY',"YOUR KEY"
     }
 }
 
