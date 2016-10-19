@@ -367,7 +367,7 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
             movie_in_theater.setText(movie.getReleaseDate());
             movie_adult.setText(Boolean.toString(info.getAdult()));
             movie_genre.setText(info.getGenres());
-            movie_runtime.setText(info.getRuntime());
+            movie_runtime.setText(Utility.getRumTime(info.getRuntime()));
         }
     }
 

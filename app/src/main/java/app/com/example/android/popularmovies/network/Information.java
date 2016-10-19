@@ -10,10 +10,10 @@ import java.util.List;
 
 public class Information implements Parcelable {
     //@SerializedName("genres")
-    private String genres;
+    private String genreName;
 
     @SerializedName("genres")
-    private List<Genre> genresList = new ArrayList<>();
+    private List<Genre> genres = new ArrayList<>();
     @SerializedName("homepage")
     private String homepage;
     @SerializedName("runtime")
@@ -21,7 +21,7 @@ public class Information implements Parcelable {
     private Integer runtime;
     @SerializedName("adult")
     //private String adult;
-    private boolean adult;
+    private Boolean adult;
 
     public static final String GENRES = "genres";
     public static final String GENRES_NAME = "name";
@@ -42,31 +42,31 @@ public class Information implements Parcelable {
         adult = Boolean.getBoolean(in.readString());
         runtime = in.readInt();
         homepage = in.readString();
-        genres = in.readString();
+        genreName = in.readString();
     }
 
     public String getGenres(){
         setGenres();
-        return genres;
+        return genreName;
     }
 
     public void setGenres(){
         StringBuilder sb = new StringBuilder();
-        for (Genre g : genresList){
+        for (Genre g : genres){
             sb.append(g.getName()).append(", ");
         }
          if (sb.length() > 2){
              sb.delete(sb.length() - 2, sb.length());
          }
-        genres = sb.toString();
+        genreName = sb.toString();
     }
 
     public List<Genre> getGenresList() {
-        return genresList;
+        return genres;
     }
 
     public void setGenresList(List<Genre> genres) {
-        this.genresList = genres;
+        this.genres = genres;
     }
 
     public String getHomepage(){
@@ -116,6 +116,6 @@ public class Information implements Parcelable {
         parcel.writeString(Boolean.toString(adult));
         parcel.writeInt(runtime);
         parcel.writeString(homepage);
-        parcel.writeString(genres);
+        parcel.writeString(genreName);
     }
 }

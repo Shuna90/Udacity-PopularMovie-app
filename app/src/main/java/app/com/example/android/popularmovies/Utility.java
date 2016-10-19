@@ -42,8 +42,8 @@ public class Utility {
         prefs.edit().putBoolean(TWO_PANE, true).commit();
     }
 
-    public static String getRumTime(String runTime){
-        int time = Integer.parseInt(runTime);
+    public static String getRumTime(Integer runTime){
+        int time = runTime;
         int timeInHour = time / 60;
         int timeLeftMin = time % 60;
         if (timeLeftMin != 0){

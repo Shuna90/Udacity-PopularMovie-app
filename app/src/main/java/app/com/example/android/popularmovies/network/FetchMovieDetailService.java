@@ -28,7 +28,7 @@ public interface FetchMovieDetailService {
             @Path("id") String movieId,
             @Query("api_key") String apiKey);
 
-    @GET("3/movie/{id}/")
+    @GET("3/movie/{id}")
     Call<Information> fetchInfoById(
             @Path("id") String movieId,
             @Query("api_key") String apiKey);

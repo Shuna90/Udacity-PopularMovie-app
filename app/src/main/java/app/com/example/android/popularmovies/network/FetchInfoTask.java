@@ -31,7 +31,7 @@ public class FetchInfoTask extends AsyncTask<String, Void, Information> {
         }
         Information info;
         String movieId = params[0];
-        final String BASE_URL = "http://api.themoviedb.org/";
+        final String BASE_URL = "https://api.themoviedb.org/";
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -44,6 +44,8 @@ public class FetchInfoTask extends AsyncTask<String, Void, Information> {
         try {
             Response<Information> response = call.execute();
             info = response.body();
+            Log.d(LOG_TAG, "Retrofit done");
+            Log.d(LOG_TAG, info.getHomepage());
             return info;
         } catch (IOException e) {
             Log.e(LOG_TAG, "A problem occurred talking to the movie db ", e);
