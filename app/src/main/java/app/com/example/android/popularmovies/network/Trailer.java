@@ -3,15 +3,18 @@ package app.com.example.android.popularmovies.network;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by shuna on 9/28/16.
- */
-public class Trailer implements Parcelable {
+import com.google.gson.annotations.SerializedName;
 
+public class Trailer implements Parcelable {
+    @SerializedName("id")
     private String trailerId;
+    @SerializedName("key")
     private String trailerKey;
+    @SerializedName("name")
     private String trailerName;
+    @SerializedName("site")
     private String trailerSite;
+    @SerializedName("size")
     private String trailerSize;
 
     public static final String TRAILER_ID = "id";

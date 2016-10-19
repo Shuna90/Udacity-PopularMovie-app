@@ -3,13 +3,25 @@ package app.com.example.android.popularmovies.network;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import app.com.example.android.popularmovies.Utility;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Information implements Parcelable {
+    //@SerializedName("genres")
     private String genres;
+
+    @SerializedName("genres")
+    private List<Genre> genresList = new ArrayList<>();
+    @SerializedName("homepage")
     private String homepage;
-    private String runtime;
-    private String adult;
+    @SerializedName("runtime")
+    //private String runtime;
+    private Integer runtime;
+    @SerializedName("adult")
+    //private String adult;
+    private boolean adult;
 
     public static final String GENRES = "genres";
     public static final String GENRES_NAME = "name";
@@ -17,35 +29,70 @@ public class Information implements Parcelable {
     public static final String RUNTIME = "runtime";
     public static final String ADULT = "adult";
 
+    /*
     public Information(String adult, String runtime, String homepage, String genres){
         this.adult = adult;
         this.runtime = Utility.getRumTime(runtime);
         this.homepage = homepage;
         this.genres = genres;
     }
+    */
 
     protected Information(Parcel in) {
-        adult = in.readString();
-        runtime = in.readString();
+        adult = Boolean.getBoolean(in.readString());
+        runtime = in.readInt();
         homepage = in.readString();
         genres = in.readString();
     }
 
     public String getGenres(){
+        setGenres();
         return genres;
+    }
+
+    public void setGenres(){
+        StringBuilder sb = new StringBuilder();
+        for (Genre g : genresList){
+            sb.append(g.getName()).append(", ");
+        }
+         if (sb.length() > 2){
+             sb.delete(sb.length() - 2, sb.length());
+         }
+        genres = sb.toString();
+    }
+
+    public List<Genre> getGenresList() {
+        return genresList;
+    }
+
+    public void setGenresList(List<Genre> genres) {
+        this.genresList = genres;
     }
 
     public String getHomepage(){
         return homepage;
     }
 
-    public String getRuntime(){
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
+    }
+
+    public int getRuntime(){
         return runtime;
     }
 
-    public String getAdult(){
+    public void setRuntime(Integer runtime) {
+        this.runtime = runtime;
+    }
+
+    public boolean getAdult(){
         return adult;
     }
+
+    public void setAdult(Boolean adult) {
+        this.adult = adult;
+    }
+
 
     public static final Creator<Information> CREATOR = new Creator<Information>() {
         @Override
@@ -66,8 +113,8 @@ public class Information implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(adult);
-        parcel.writeString(runtime);
+        parcel.writeString(Boolean.toString(adult));
+        parcel.writeInt(runtime);
         parcel.writeString(homepage);
         parcel.writeString(genres);
     }

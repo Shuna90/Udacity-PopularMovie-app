@@ -10,6 +10,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.facebook.stetho.Stetho;
+
 import app.com.example.android.popularmovies.detail.MovieDetailActivity;
 import app.com.example.android.popularmovies.detail.MovieDetailActivityFragment;
 import app.com.example.android.popularmovies.network.Movie;
@@ -79,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
         setSupportActionBar(toolbar);
         isFavorite = morder.equals(FAVORITES);
+
+        Stetho.initializeWithDefaults(this);
     }
 
     @Override

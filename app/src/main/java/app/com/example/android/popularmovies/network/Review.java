@@ -3,14 +3,18 @@ package app.com.example.android.popularmovies.network;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by shuna on 9/28/16.
- */
+import com.google.gson.annotations.SerializedName;
+
+
 public class Review implements Parcelable {
 
+    @SerializedName("id")
     private String reviewId;
+    @SerializedName("author")
     private String reviewAuthor;
+    @SerializedName("content")
     private String reviewContent;
+    @SerializedName("url")
     private String reviewUrl;
 
     public static final String REVIEW_ID = "id";

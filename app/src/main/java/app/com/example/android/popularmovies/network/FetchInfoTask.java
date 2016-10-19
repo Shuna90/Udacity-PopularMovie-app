@@ -1,21 +1,15 @@
 package app.com.example.android.popularmovies.network;
 
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import app.com.example.android.popularmovies.BuildConfig;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FetchInfoTask extends AsyncTask<String, Void, Information> {
 
@@ -37,11 +31,31 @@ public class FetchInfoTask extends AsyncTask<String, Void, Information> {
         }
         Information info;
         String movieId = params[0];
+        final String BASE_URL = "http://api.themoviedb.org/";
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        FetchMovieDetailService service = retrofit.create(FetchMovieDetailService.class);
+        Call<Information> call = service.fetchInfoById(movieId,
+                BuildConfig.THE_MOVIE_DATABASE_API_KEY);
+        try {
+            Response<Information> response = call.execute();
+            info = response.body();
+            return info;
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "A problem occurred talking to the movie db ", e);
+        }
+
+        /*
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String forecastJsonStr;
 
         try {
+        //https://api.themoviedb.org/3/movie/297761?api_key=4cdf3d6a44f1b31cf1b0a47d56bb7b53
             final String BASE_URL = "http://api.themoviedb.org/3/movie/";
             final String KEYID_PARAM = "api_key";
             Uri builtUri = Uri.parse(BASE_URL + movieId + "?").buildUpon()
@@ -96,9 +110,11 @@ public class FetchInfoTask extends AsyncTask<String, Void, Information> {
                 }
             }
         }
+        */
         return null;
     }
 
+    /*
     private Information getMovieDataFromJson(String forecastJsonStr) throws JSONException{
 
         try{
@@ -131,7 +147,7 @@ public class FetchInfoTask extends AsyncTask<String, Void, Information> {
         }
         return null;
     }
-
+    */
     @Override
     protected void onPostExecute(Information info) {
         listener.infoTaskCompleted(info);
