@@ -1,4 +1,4 @@
-Nanodegree_ProjectMovies
+#Udacity-PopularMovie-app
 
 To get the app working you need a valid api key.
 
