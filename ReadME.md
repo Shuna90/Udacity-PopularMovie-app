@@ -19,3 +19,4 @@ Popular Movie App is an android project that allows users to discover popular an
 
 1. To get the app working you need a valid API key from [the Movie Database API] (https://www.themoviedb.org/documentation/api)
 2. Open `app/gradle.properties` and paste the API key.
+3. Save the file and build the project.
