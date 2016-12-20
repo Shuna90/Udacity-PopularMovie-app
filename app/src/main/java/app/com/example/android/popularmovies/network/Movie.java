@@ -58,7 +58,7 @@ public class Movie implements Parcelable {
     //http://image.tmdb.org/t/p/w342//e1mjopzAS2KNsvpbpahQ1a6SkSn.jpg
     public String getPoster_path(){
         if (poster_path != null && !poster_path.isEmpty()){
-            return URL_POSTER + poster_path;
+            return poster_path;
         }
         return null;
     }
