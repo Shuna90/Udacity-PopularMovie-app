@@ -3,9 +3,9 @@ Popular Movie App is an android project that allows users to discover popular an
 
 ###Screens:
 ![alt tag](https://cloud.githubusercontent.com/assets/11967184/21341801/32b3f7a8-c643-11e6-891c-23ed0c2593af.png)
+![alt tag](https://cloud.githubusercontent.com/assets/11967184/21341806/3774b03e-c643-11e6-930a-dfefc171150d.png)
 ![alt tag](https://cloud.githubusercontent.com/assets/11967184/21341078/74b0a434-c63f-11e6-9408-72117d50b938.png)
 ![alt tag](https://cloud.githubusercontent.com/assets/11967184/21341077/729bd290-c63f-11e6-95b4-b11877e22002.png)
-![alt tag](https://cloud.githubusercontent.com/assets/11967184/21341806/3774b03e-c643-11e6-930a-dfefc171150d.png)
 
 ###Hone skills:
 - Build clean and compelling user interfaces
