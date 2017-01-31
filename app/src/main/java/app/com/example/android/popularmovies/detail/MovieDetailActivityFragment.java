@@ -57,43 +57,43 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
     public static final String MOVIE_INFO = "MOVIE_INFO";
 
     @BindView(R.id.movie_title)
-    private TextView movie_title;
+    TextView movie_title;
     @BindView(R.id.movie_rating)
-    private TextView movie_rating;
+    TextView movie_rating;
     @BindView(R.id.movie_description)
-    private TextView movie_description;
+    TextView movie_description;
     @BindView(R.id.movie_release_date)
-    private TextView movie_date;
+    TextView movie_date;
     @BindView(R.id.movie_favorite_button)
-    private ImageButton movie_favorite;
+    ImageButton movie_favorite;
     @BindView(R.id.movie_poster_image_view)
-    private ImageView movie_poster;
+    ImageView movie_poster;
     @BindView(R.id.trailer_list)
-    private RecyclerView trailerRecyclerView;
+    RecyclerView trailerRecyclerView;
     @BindView(R.id.review_list)
-    private RecyclerView reviewRecyclerView;
+    RecyclerView reviewRecyclerView;
     @BindView(R.id.review_text)
-    private TextView review_text;
+    TextView review_text;
     @BindView(R.id.trailer_text)
-    private TextView trailer_text;
+    TextView trailer_text;
 
     @BindView(R.id.movie_detail_poster)
-    private ImageView imageView;
+    ImageView imageView;
     @BindView(R.id.toolbar_layout)
-    private CollapsingToolbarLayout collapsingToolbarLayout;
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     @BindView(R.id.information_movie_rated)
-    private TextView movie_adult;
+    TextView movie_adult;
     @BindView(R.id.information_movie_in_theaters)
-    private TextView movie_in_theater;
+    TextView movie_in_theater;
     @BindView(R.id.information_movie_genre)
-    private TextView movie_genre;
+    TextView movie_genre;
     @BindView(R.id.information_movie_director)
-    private TextView movie_director;
+    TextView movie_director;
     @BindView(R.id.information_movie_cast)
-    private TextView movie_cast;
+    TextView movie_cast;
     @BindView(R.id.information_movie_run_time)
-    private TextView movie_runtime;
+    TextView movie_runtime;
 
     private Movie movie;
     private boolean isFavorite;
@@ -135,23 +135,6 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
         View rootView = inflater.inflate(R.layout.fragment_movie_detail, container, false);
         ButterKnife.bind(this, rootView);
 
-        movie_title = (TextView) rootView.findViewById(R.id.movie_title);
-        movie_rating = (TextView) rootView.findViewById(R.id.movie_rating);
-        movie_description = (TextView) rootView.findViewById(R.id.movie_description);
-        movie_poster = (ImageView) rootView.findViewById(R.id.movie_poster_image_view);
-        movie_date = (TextView) rootView.findViewById(R.id.movie_release_date);
-        reviewRecyclerView = (RecyclerView) rootView.findViewById(R.id.review_list);
-        trailerRecyclerView = (RecyclerView) rootView.findViewById(R.id.trailer_list);
-        review_text = (TextView) rootView.findViewById(R.id.review_text);
-        trailer_text = (TextView) rootView.findViewById(R.id.trailer_text);
-
-        movie_adult = (TextView) rootView.findViewById(R.id.information_movie_rated);
-        movie_in_theater = (TextView) rootView.findViewById(R.id.information_movie_in_theaters);
-        movie_genre = (TextView) rootView.findViewById(R.id.information_movie_genre);
-        movie_director = (TextView) rootView.findViewById(R.id.information_movie_director);
-        movie_cast = (TextView) rootView.findViewById(R.id.information_movie_cast);
-        movie_runtime = (TextView) rootView.findViewById(R.id.information_movie_run_time);
-
         if (!Utility.isTwoPane(getContext())) {
             View parent = getActivity().findViewById(R.id.toolbar_layout);
             imageView = (ImageView) parent.findViewById(R.id.movie_detail_poster);
@@ -173,7 +156,6 @@ public class MovieDetailActivityFragment extends Fragment implements FetchTraile
                     .into(movie_poster);
         }
 
-        movie_favorite = (ImageButton) rootView.findViewById(R.id.movie_favorite_button);
         isFavorite = checkFavorite();
         movie_favorite.setSelected(isFavorite);
         movie_favorite.setOnClickListener(new View.OnClickListener() {

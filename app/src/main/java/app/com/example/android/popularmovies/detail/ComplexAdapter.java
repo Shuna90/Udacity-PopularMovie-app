@@ -56,8 +56,6 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TrailerViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            text_trailer_name = (TextView)view.findViewById(R.id.trailer_name);
-            trailer_thumbnail = (ImageView)view.findViewById(R.id.trailer_thumbnail);
             mView = view;
             view.setOnClickListener(this);
         }
@@ -80,8 +78,6 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public ReviewViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            text_author = (TextView)view.findViewById(R.id.review_author);
-            text_content = (TextView)view.findViewById(R.id.review_content);
             mView = view;
         }
 

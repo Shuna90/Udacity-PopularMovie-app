@@ -15,12 +15,14 @@ import com.squareup.picasso.Picasso;
 
 import app.com.example.android.popularmovies.R;
 import app.com.example.android.popularmovies.network.Movie;
+import butterknife.BindView;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
     public static final String MOVIE_SELECTED = "Movie_Selected";
     private CollapsingToolbarLayout collapsingToolbarLayout = null;
-    private ImageView imageView;
+    @BindView(R.id.movie_detail_poster)
+    ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +46,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         collapsingToolbarLayout.setTitle(movie.getTitle());
         //collapsingToolbarLayout.setTitleEnabled(false);
-        imageView = (ImageView)findViewById(R.id.movie_detail_poster) ;
         Picasso.with(this)
                 .load(movie.getBackdropUrl())
                 .config(Bitmap.Config.RGB_565)

@@ -36,8 +36,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewAdap
         public ReviewAdapterViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            text_author = (TextView)view.findViewById(R.id.review_author);
-            text_content = (TextView)view.findViewById(R.id.review_content);
             mView = view;
         }
     }

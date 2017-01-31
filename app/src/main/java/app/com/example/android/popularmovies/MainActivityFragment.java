@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import app.com.example.android.popularmovies.data.MovieContract;
 import app.com.example.android.popularmovies.network.FetchMovieTask;
 import app.com.example.android.popularmovies.network.Movie;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -28,7 +30,7 @@ public class MainActivityFragment extends Fragment implements FetchMovieTask.OnT
     public static final String LOG_TAG = MainActivityFragment.class.getSimpleName();
     private MovieListAdapter mMovieListAdapter;
     private MovieListAdapter mMovieCursorAdapter;
-    private RecyclerView mRecyclerView;
+
     private int mPosition = RecyclerView.NO_POSITION;
     private static final String SELECTED_KEY = "selected_position";
     private static final String SAVED_MOVIE_LIST = "MovieList";
@@ -40,7 +42,10 @@ public class MainActivityFragment extends Fragment implements FetchMovieTask.OnT
     private Cursor mCursor;
 
     public boolean isFavorite;
-    private TextView empty_text;
+    @BindView(R.id.empty_text)
+    TextView empty_text;
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
 
     public MainActivityFragment() {
     }
@@ -137,8 +142,7 @@ public class MainActivityFragment extends Fragment implements FetchMovieTask.OnT
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        empty_text = (TextView)rootView.findViewById(R.id.empty_text);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        ButterKnife.bind(this, rootView);
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(),getResources().getInteger(R.integer.col_number));
         mRecyclerView.setHasFixedSize(true);

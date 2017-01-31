@@ -2,6 +2,7 @@ package app.com.example.android.popularmovies;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -9,12 +10,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.facebook.stetho.Stetho;
 
 import app.com.example.android.popularmovies.detail.MovieDetailActivity;
 import app.com.example.android.popularmovies.detail.MovieDetailActivityFragment;
 import app.com.example.android.popularmovies.network.Movie;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainActivityFragment.Callback{
 
@@ -22,15 +26,23 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
     private static final String MAINFRAGMENT_TAG = "MFTAGE";
     private static final String EXTRA_SORT_BY = "EXTRA_SORT_BY";
-    public boolean mTwoPane;
-    private String morder;
+
     public final static String MOST_POPULAR = "popular";
     public final static String TOP_RATED = "top_rated";
     public final static String FAVORITES = "Favorite";
-    private Toolbar toolbar;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.empty_state_container)
+    View empty_movie;
+    @BindView(R.id.empty_favorite_state_container)
+    View empty_favorite_movie;
+    @Nullable @BindView(R.id.detail_container)
+    FrameLayout detail;
+
+    public boolean mTwoPane;
+    private String morder;
     private boolean isFavorite;
-    private View empty_movie;
-    private View empty_favorite_movie;
     private boolean isConnection;
     MainActivityFragment mMovieFragment;
 
@@ -38,13 +50,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        empty_movie = findViewById(R.id.empty_state_container);
-        empty_favorite_movie = findViewById(R.id.empty_favorite_state_container);
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        if (findViewById(R.id.detail_container) != null) {
+        if (detail != null) {
             mTwoPane = true;
             Utility.putTwoPan(this);
         } else {

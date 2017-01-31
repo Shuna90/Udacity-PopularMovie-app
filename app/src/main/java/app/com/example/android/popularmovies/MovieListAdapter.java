@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 import app.com.example.android.popularmovies.data.MovieContract;
 import app.com.example.android.popularmovies.network.Movie;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieAdapterViewHolder> {
     public static final String LOG_TAG = MovieListAdapter.class.getSimpleName();
@@ -29,15 +31,16 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final View mView;
-        private TextView text_title;
-        private ImageView image_poster;
+        @BindView(R.id.movie_title)
+        TextView text_title;
+        @BindView(R.id.movie_poster)
+        ImageView image_poster;
         public Movie mMovie;
 
         public MovieAdapterViewHolder(View view) {
             super(view);
             mView = view;
-            text_title = (TextView)view.findViewById(R.id.movie_title);
-            image_poster = (ImageView) view.findViewById(R.id.movie_poster);
+            ButterKnife.bind(this, view);
             view.setOnClickListener(this);
         }
 

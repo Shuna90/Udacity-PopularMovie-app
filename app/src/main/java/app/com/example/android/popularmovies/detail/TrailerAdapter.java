@@ -46,8 +46,6 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerA
         public TrailerAdapterViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            text_trailer_name = (TextView)view.findViewById(R.id.trailer_name);
-            trailer_thumbnail = (ImageView)view.findViewById(R.id.trailer_thumbnail);
             mView = view;
             view.setOnClickListener(this);
         }
